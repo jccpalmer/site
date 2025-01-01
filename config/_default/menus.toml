@@ -16,11 +16,11 @@
 [[main]]
   name = 'Reviews'
   pageRef = '/posts/reviews'
-  weight = 3
+  weight = 40
 
 [[main]]
   name = 'Docs'
   url = 'https://docs.jccpalmer.com'
-  weight = 40
+  weight = 50
   [main.params]
     rel = 'external'
