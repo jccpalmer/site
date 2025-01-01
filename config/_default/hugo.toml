@@ -9,12 +9,12 @@ theme = 'PaperMod'
 
 sectionPagesMenu = 'main'
 
-[permalinks]
-  [permalinks.page]
-    blog = '/blog/:slug'
-    posts = '/posts/:slug'
-    reviews = '/posts/reviews/:slug'
-  [permalinks.section]
-    blog = '/blog'
-    posts = '/posts/'
-    reviews = '/posts/reviews'
+#[permalinks]
+#  [permalinks.page]
+#    blog = '/blog/:slug'
+#    posts = '/posts/:slug'
+#    reviews = '/posts/reviews/:slug'
+#  [permalinks.section]
+#    blog = '/blog'
+#    posts = '/posts/'
+#    reviews = '/posts/reviews'

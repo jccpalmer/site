@@ -6,10 +6,33 @@
     <description>Recent content on JC Palmer</description>
     <generator>Hugo -- 0.140.1</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jan 2025 08:37:18 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jan 2025 11:17:48 -0500</lastBuildDate>
     <atom:link href="https://jccpalmer.com/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Kobo Sync Calibre Web</title>
+      <title>About</title>
+      <link>https://jccpalmer.com/about/</link>
+      <pubDate>Wed, 01 Jan 2025 11:17:48 -0500</pubDate>
+      <guid>https://jccpalmer.com/about/</guid>
+      <description>&lt;h3 id=&#34;heres-the-quick-breakdown&#34;&gt;Here&amp;rsquo;s the quick breakdown&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;I have over twelve years of writing experience in tech and government.&lt;/li&gt;
+&lt;li&gt;I love using free and open-source software wherever and whenever I can. Yes, that means Linux, among many other projects.&lt;/li&gt;
+&lt;li&gt;Some of my hobbies include: tinkering with my homelab, reading, studying, playing video games, writing, and woodworking.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;!!! And don&amp;rsquo;t get me started on &lt;strong&gt;mechanical keyboards&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;purpose&#34;&gt;Purpose&lt;/h3&gt;
+&lt;p&gt;I always wanted a free space where I could write about whatever I wanted. For years, I looked at people with their own websites, unsure of how they did it. Slowly but surely, I learned about managing a website, making a start at Squarespace. Finding that far too expensive, I went to WordPress, then a locally-installed WordPress installation. And here I am in what I hope is the final form. (I am using the Hugo static site generator and a git repository.)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Proxying Docker containers on a separate VLAN</title>
+      <link>https://jccpalmer.com/posts/proxy-docker-vlan/</link>
+      <pubDate>Wed, 01 Jan 2025 10:40:15 -0500</pubDate>
+      <guid>https://jccpalmer.com/posts/proxy-docker-vlan/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;d like to start this off by clearly stating that I&amp;rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.&lt;/p&gt;
+&lt;p&gt;I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Setting up Kobo sync with Calibre Web</title>
       <link>https://jccpalmer.com/posts/kobo-sync-calibre-web/</link>
       <pubDate>Wed, 01 Jan 2025 08:37:18 -0500</pubDate>
       <guid>https://jccpalmer.com/posts/kobo-sync-calibre-web/</guid>
