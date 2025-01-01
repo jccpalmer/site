@@ -1,7 +1,8 @@
 +++
 date = '2025-01-01T11:17:48-05:00'
 draft = false
-title = 'About me'
+title = 'About'
+menus = 'main'
 +++
 
 ### Here's the quick breakdown

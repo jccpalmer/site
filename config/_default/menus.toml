@@ -1,0 +1,26 @@
+[menus.main]
+  name = 'Home'
+  pageRef = '/'
+  weight = 10
+
+[menus.main]
+  name = 'Blog'
+  pageRef = '/blog'
+  weight = 20
+
+[menus.main]
+  name = 'Posts'
+  pageRef = '/posts'
+  weight = 30
+
+[menus.main]
+  name = 'Reviews'
+  pageRef = '/posts/reviews'
+  weight = 3
+
+[menus.main]
+  name 'Docs'
+  url = 'https://docs.jccpalmer.com'
+  weight = 40
+  [menus.main.params]
+    rel = 'external'
