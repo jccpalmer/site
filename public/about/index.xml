@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Abouts on JC Palmer</title>
+    <link>https://jccpalmer.com/about/</link>
+    <description>Recent content in Abouts on JC Palmer</description>
+    <generator>Hugo -- 0.140.1</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Jan 2025 11:17:48 -0500</lastBuildDate>
+    <atom:link href="https://jccpalmer.com/about/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://jccpalmer.com/about/about/</link>
+      <pubDate>Wed, 01 Jan 2025 11:17:48 -0500</pubDate>
+      <guid>https://jccpalmer.com/about/about/</guid>
+      <description>&lt;h3 id=&#34;heres-the-quick-breakdown&#34;&gt;Here&amp;rsquo;s the quick breakdown&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;I have over twelve years of writing experience in tech and government.&lt;/li&gt;
+&lt;li&gt;I love using free and open-source software wherever and whenever I can. Yes, that means Linux, among many other projects.&lt;/li&gt;
+&lt;li&gt;Some of my hobbies include: tinkering with my homelab, reading, studying, playing video games, writing, and woodworking.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;!!! And don&amp;rsquo;t get me started on &lt;strong&gt;mechanical keyboards&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&#34;purpose&#34;&gt;Purpose&lt;/h3&gt;
+&lt;p&gt;I always wanted a free space where I could write about whatever I wanted. For years, I looked at people with their own websites, unsure of how they did it. Slowly but surely, I learned about managing a website, making a start at Squarespace. Finding that far too expensive, I went to WordPress, then a locally-installed WordPress installation. And here I am in what I hope is the final form. (I am using the Hugo static site generator and a git repository.)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
