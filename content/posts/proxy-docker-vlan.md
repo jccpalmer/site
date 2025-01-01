@@ -1,6 +1,6 @@
 +++
 date = '2025-01-01T10:40:15-05:00'
-draft = true
+draft = false
 title = 'Proxying Docker containers on a separate VLAN'
 +++
 
