@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Proxying Docker containers on a separate VLAN | JC Palmer</title>
+<meta name="keywords" content="">
+<meta name="description" content="I&rsquo;d like to start this off by clearly stating that I&rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.
+I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.">
+<meta name="author" content="">
+<link rel="canonical" href="https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.d6fcd20a4fb86efa4dfac8ec95da60244cc8871042183da1ef28e3a762ad79c8.css" integrity="sha256-1vzSCk&#43;4bvpN&#43;sjsldpgJEzIhxBCGD2h7yjjp2Ktecg=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://jccpalmer.com/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://jccpalmer.com/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://jccpalmer.com/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://jccpalmer.com/apple-touch-icon.png">
+<link rel="mask-icon" href="https://jccpalmer.com/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:url" content="https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/">
+  <meta property="og:site_name" content="JC Palmer">
+  <meta property="og:title" content="Proxying Docker containers on a separate VLAN">
+  <meta property="og:description" content="I’d like to start this off by clearly stating that I’m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.
+I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-01T10:40:15-05:00">
+    <meta property="article:modified_time" content="2025-01-01T10:40:15-05:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Proxying Docker containers on a separate VLAN">
+<meta name="twitter:description" content="I&rsquo;d like to start this off by clearly stating that I&rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.
+I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://jccpalmer.com/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Proxying Docker containers on a separate VLAN",
+      "item": "https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Proxying Docker containers on a separate VLAN",
+  "name": "Proxying Docker containers on a separate VLAN",
+  "description": "I\u0026rsquo;d like to start this off by clearly stating that I\u0026rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.\nI built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "I’d like to start this off by clearly stating that I’m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.\nI built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.\nThe secret was the ports. What do I mean? Well, let me tell you about it.\nComing up with the idea Don’t get me wrong, the service that Cloudflare offers homelab users for free is outstanding. Tunnels let me expose services like Nextcloud and Calibre Web without a hassle, but even those could prove troublesome given Cloudflare’s terms of service.\nSuch terms prevented the use of Tunnels for things like media, so publicly exposing my Jellyfin server was a no-go. Before Cloudflare, I had opened ports 80 and 443 on my router and used Nginx Proxy Manager (NPM) to proxy my services to a public URL. That is rather risky, though, and so I shut the whole thing down and went with Cloudflare.\nSo what was my idea? Run a proxy manager like NPM on a server that sits on a separate virtual LAN (VLAN) from my main network. That way, if something was compromised, I could minimize the damage done to my network.\nThe setup Alright, I’ve hinted at how I set this up, so let me explain it as best as I can. Frankly, I don’t totally understand it all, as I built it a little bit at a time. So here’s an amateur network diagram I drew up.\nI have a main network where most of my client devices reside. A while ago, I built a separate network for my Internet of Things (IoT) devices, establishing them on a new VLAN with their own wireless network. The point of this was so that any Wi-Fi IoT devices in my smart home, such as Google speakers, my solar panel system controller, and robot vacuums, could be sectioned off from my main network as a security precaution.\nThis way, if one of those devices is compromised, I can keep the damage restricted to the IoT VLAN since I set up several firewall rules that keep the smart devices from getting more than the bare essential internet access that they need to function.\nSo I applied a similar philosophy to the proxy VLAN idea. I took an unused Raspberry Pi and flashed Raspberry Pi OS Lite to an SD card. (I really liked when it was called Raspbian, but I digress.) I installed Docker, Portainer, and Nginx Proxy Manager.\nI went into my router and built a new VLAN that I named NPM. The first order of business was to tell my router to put the Raspberry Pi on the new VLAN instead of the main one. Considering that I was using an unmanaged switch, I had to sacrifice one of the ports on my UniFi Dream Machine to dedicate to the proxy VLAN.\nAfter this and forwarding ports 80 and 443 to the Pi, I started in on the firewall rules. In order to perform remote management from my computer or MacBook, I needed to allow the main LAN to talk to the VLAN. The next rule was to allow the Raspberry Pi to talk to the server that hosts my Docker containers. This is a Debian virtual machine running inside of Proxmox.\nFinally, with that rule established, I told my router to drop everything else from the proxy VLAN. That means that the Raspberry Pi can now only talk to the Docker server and nothing else. The easiest way to test this is to attempt to ping a device on the main network while connected remotely to the proxy server.\nI hope that makes a bit of sense. Basically, the Raspberry Pi can’t talk to anything but itself and the server running my Docker containers so that it can proxy them, and that only through a series of manually opened ports on the Docker host’s firewall.\nWhere it went wrong After loading everything up, I powered it all on and built my first proxy host. Then I tried to connect and… nothing. I got a connection failure. After some playing around, I tried to access the public URL outside of my network. Still nothing. I checked DNS settings and learned that my router’s NAT options may be messing with the connection, but Ubiquiti, to my knowledge, doesn’t allow you to change your router’s NAT config.\nI tried for hours and didn’t make any progress. Several days later, I gave up. Then, while hanging out with a friend as she worked on her own project, I decided to spin this up again. I encountered the same errors.\nThat said, we wouldn’t be here right now if I hadn’t figured it out.\nSuccess!.. and ports After toying with my DNS resolver, Unbound — AKA switching to a public one — I suddenly got access to my external URLs while off my network. Huzzah! That was a major step in the right direction, which meant my NPM server was properly communicating with the Docker server. How? Hell if I know.\nBut internally, the URLs still resolved to NXDOMAIN in nslookup. Weird.\nOn a whim, I installed UFW, or the Uncomplicated Firewall, on the Docker host and tried passing through the normal SSH, HTTP, and HTTPS ports. That didn’t do anything. My frustration grew. I was so close!\nThen, a lightbulb went off after a few more hours of searching. I went to the Docker host and manually allowed the port for my Jellyfin container, 8096, through UFW. And right then, my Jellyfin public URL worked from inside my network.\nI might have startled my friend in my joy. I frankly startled myself.\nWhat I learned So, what did I learn? A lot, it turns out. From the top, I learned more about VLANs and firewall rules. The proxy VLAN was a more complicated setup than my IoT one, especially since it was meant to be as secure as I can manage with my layman knowledge.\nSecond, I learned a little bit more about DNS resolving, mostly because I still can’t use Unbound on my Pi-Hole installation — I have documentation on how to do that, if you’re interested — if I want to access the external URLs. While getting to the services locally via their internal IP is fine, it’s not ideal for mobile apps like Nextcloud. When I leave my network, I would lose access unless I VPN into my home. (I’m still sorting out Wireguard.)\nThis I have yet to figure out. If I crack it, I’ll let you know.\nThird, I thought I knew about the importance of ports before, but boy do I understand them a lot better now. I’d worked with UFW in the past, but I never stopped to consider that it might be the solution, and simultaneously the hindrance, to my issue.\nWrapping up I can’t believe that the solution this whole time, as it stands, was to use a public DNS resolver and to open each Docker container’s port in UFW on the host server. The latter is a bit of nuisance after I create the proxy host in NPM, but it seems, to me at least, to be a more secure setup.\nIn the end, I could have also opted for the Self-hosted Gateway solution, an open-source alternative to Cloudflare Tunnels. That, however, requires a virtual private server (VPS) to run properly since it needs ports 80 and 443open to authenticate and get the SSL certificates. At that point, you might as well copy this project and save yourself the hassle and money. (Self-Hosted Gateway can be a pain to use and the documentation needs help the last time I checked; maybe I can lend a hand with that!)\nI’ve had this going for a few days and I’ve watched logs on my router and Fail2ban on the NPM server. My router has blocked the generic 80 and 443 scans that bots and bad actors do, but nothing terrible has happened. Of course, nothing is foolproof and I will keep an eye on things.\nIf you want to replicate this setup, I will have documentation for it ready to go soon, but you can check the project page. Thanks for reading and happy proxying.\n",
+  "wordCount" : "1430",
+  "inLanguage": "en",
+  "datePublished": "2025-01-01T10:40:15-05:00",
+  "dateModified": "2025-01-01T10:40:15-05:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "JC Palmer",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://jccpalmer.com/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://jccpalmer.com/" accesskey="h" title="JC Palmer (Alt + H)">JC Palmer</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://jccpalmer.com/" title="Reviews">
+                    <span>Reviews</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jccpalmer.com/" title="JC Palmer">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jccpalmer.com/" title="Blog">
+                    <span>Blog</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://jccpalmer.com/posts/" title="Posts">
+                    <span>Posts</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://docs.jccpalmer.com" title="Docs">
+                    <span>Docs</span>&nbsp;
+                    <svg fill="none" shape-rendering="geometricPrecision" stroke="currentColor" stroke-linecap="round"
+                        stroke-linejoin="round" stroke-width="2.5" viewBox="0 0 24 24" height="12" width="12">
+                        <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                        <path d="M15 3h6v6"></path>
+                        <path d="M10 14L21 3"></path>
+                    </svg>
+                </a>
+            </li>
+            <li>
+                <a href="https://jccpalmer.com/about/" title="About">
+                    <span>About</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      Proxying Docker containers on a separate VLAN
+    </h1>
+    <div class="post-meta"><span title='2025-01-01 10:40:15 -0500 EST'>January 1, 2025</span>
+
+</div>
+  </header> 
+  <div class="post-content"><p>I&rsquo;d like to start this off by clearly stating that I&rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.</p>
+<p>I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.</p>
+<p>The secret was the ports. What do I mean? Well, let me tell you about it.</p>
+<h2 id="coming-up-with-the-idea">Coming up with the idea<a hidden class="anchor" aria-hidden="true" href="#coming-up-with-the-idea">#</a></h2>
+<p>Don&rsquo;t get me wrong, the service that Cloudflare offers homelab users for <em>free</em> is outstanding. Tunnels let me expose services like Nextcloud and Calibre Web without a hassle, but even those could prove troublesome given Cloudflare&rsquo;s terms of service.</p>
+<p>Such terms prevented the use of Tunnels for things like media, so publicly exposing my Jellyfin server was a no-go. Before Cloudflare, I had opened ports <code>80</code> and <code>443</code> on my router and used Nginx Proxy Manager (NPM) to proxy my services to a public URL. That is rather risky, though, and so I shut the whole thing down and went with Cloudflare.</p>
+<p>So what was my idea? Run a proxy manager like NPM on a server that sits on a separate virtual LAN (VLAN) from my main network. That way, if something was compromised, I could minimize the damage done to my network.</p>
+<h2 id="the-setup">The setup<a hidden class="anchor" aria-hidden="true" href="#the-setup">#</a></h2>
+<p>Alright, I&rsquo;ve hinted at how I set this up, so let me explain it as best as I can. Frankly, I don&rsquo;t totally understand it all, as I built it a little bit at a time. So here&rsquo;s an amateur network diagram I drew up.</p>
+<p>I have a main network where most of my client devices reside. A while ago, I built a separate network for my Internet of Things (IoT) devices, establishing them on a new VLAN with their own wireless network. The point of this was so that any Wi-Fi IoT devices in my smart home, such as Google speakers, my solar panel system controller, and robot vacuums, could be sectioned off from my main network as a security precaution.</p>
+<p>This way, if one of those devices is compromised, I can keep the damage restricted to the IoT VLAN since I set up several firewall rules that keep the smart devices from getting more than the bare essential internet access that they need to function.</p>
+<p>So I applied a similar philosophy to the proxy VLAN idea. I took an unused Raspberry Pi and flashed Raspberry Pi OS Lite to an SD card. (I really liked when it was called Raspbian, but I digress.) I installed Docker, Portainer, and Nginx Proxy Manager.</p>
+<p>I went into my router and built a new VLAN that I named NPM. The first order of business was to tell my router to put the Raspberry Pi on the new VLAN instead of the main one. Considering that I was using an unmanaged switch, I had to sacrifice one of the ports on my UniFi Dream Machine to dedicate to the proxy VLAN.</p>
+<p>After this and forwarding ports <code>80</code> and <code>443</code> to the Pi, I started in on the firewall rules. In order to perform remote management from my computer or MacBook, I needed to allow the main LAN to talk to the VLAN. The next rule was to allow the Raspberry Pi to talk to the server that hosts my Docker containers. This is a Debian virtual machine running inside of Proxmox.</p>
+<p>Finally, with that rule established, I told my router to drop everything else from the proxy VLAN. That means that the Raspberry Pi can now only talk to the Docker server and nothing else. The easiest way to test this is to attempt to ping a device on the main network while connected remotely to the proxy server.</p>
+<p>I hope that makes a bit of sense. Basically, the Raspberry Pi can&rsquo;t talk to anything but itself and the server running my Docker containers so that it can proxy them, and that only through a series of manually opened ports on the Docker host&rsquo;s firewall.</p>
+<h2 id="where-it-went-wrong">Where it went wrong<a hidden class="anchor" aria-hidden="true" href="#where-it-went-wrong">#</a></h2>
+<p>After loading everything up, I powered it all on and built my first proxy host. Then I tried to connect and&hellip; nothing. I got a connection failure. After some playing around, I tried to access the public URL outside of my network. Still nothing. I checked DNS settings and learned that my router&rsquo;s NAT options may be messing with the connection, but Ubiquiti, to my knowledge, doesn&rsquo;t allow you to change your router&rsquo;s NAT config.</p>
+<p>I tried for hours and didn&rsquo;t make any progress. Several days later, I gave up. Then, while hanging out with a friend as she worked on her own project, I decided to spin this up again. I encountered the same errors.</p>
+<p>That said, we wouldn&rsquo;t be here right now if I hadn&rsquo;t figured it out.</p>
+<h2 id="success-and-ports">Success!.. and ports<a hidden class="anchor" aria-hidden="true" href="#success-and-ports">#</a></h2>
+<p>After toying with my DNS resolver, Unbound — AKA switching to a public one — I suddenly got access to my external URLs while off my network. Huzzah! That was a major step in the right direction, which meant my NPM server was properly communicating with the Docker server. How? Hell if I know.</p>
+<p>But internally, the URLs still resolved to NXDOMAIN in <code>nslookup</code>. Weird.</p>
+<p>On a whim, I installed UFW, or the Uncomplicated Firewall, on the Docker host and tried passing through the normal SSH, HTTP, and HTTPS ports. That didn&rsquo;t do anything. My frustration grew. I was so close!</p>
+<p>Then, a lightbulb went off after a few more hours of searching. I went to the Docker host and manually allowed the port for my Jellyfin container, <code>8096</code>, through UFW. And right then, my Jellyfin public URL worked from inside my network.</p>
+<p>I might have startled my friend in my joy. I frankly startled myself.</p>
+<h2 id="what-i-learned">What I learned<a hidden class="anchor" aria-hidden="true" href="#what-i-learned">#</a></h2>
+<p>So, what did I learn? A lot, it turns out. From the top, I learned more about VLANs and firewall rules. The proxy VLAN was a more complicated setup than my IoT one, especially since it was meant to be as secure as I can manage with my layman knowledge.</p>
+<p>Second, I learned a little bit more about DNS resolving, mostly because I still can&rsquo;t use Unbound on my Pi-Hole installation — I have <a href="https://docs.jccpalmer.com/en/software/pi-hole">documentation</a> on how to do that, if you&rsquo;re interested — if I want to access the external URLs. While getting to the services locally via their internal IP is fine, it&rsquo;s not ideal for mobile apps like Nextcloud. When I leave my network, I would lose access unless I VPN into my home. (I&rsquo;m still sorting out Wireguard.)</p>
+<p>This I have yet to figure out. If I crack it, I&rsquo;ll let you know.</p>
+<p>Third, I thought I knew about the importance of ports before, but boy do I understand them a lot better now. I&rsquo;d worked with UFW in the past, but I never stopped to consider that it might be the solution, and simultaneously the hindrance, to my issue.</p>
+<h2 id="wrapping-up">Wrapping up<a hidden class="anchor" aria-hidden="true" href="#wrapping-up">#</a></h2>
+<p>I can&rsquo;t believe that the solution this whole time, as it stands, was to use a public DNS resolver and to open each Docker container&rsquo;s port in UFW on the host server. The latter is a bit of nuisance after I create the proxy host in NPM, but it seems, to me at least, to be a more secure setup.</p>
+<p>In the end, I could have also opted for the <a href="https://github.com/fractalnetworksco/selfhosted-gateway">Self-hosted Gateway</a> solution, an open-source alternative to Cloudflare Tunnels. That, however, requires a virtual private server (VPS) to run properly since it needs ports <code>80</code> and <code>443</code>open to authenticate and get the SSL certificates. At that point, you might as well copy this project and save yourself the hassle and money. (Self-Hosted Gateway can be a pain to use and the documentation needs help the last time I checked; maybe I can lend a hand with that!)</p>
+<p>I&rsquo;ve had this going for a few days and I&rsquo;ve watched logs on my router and Fail2ban on the NPM server. My router has blocked the generic <code>80</code> and <code>443</code> scans that bots and bad actors do, but nothing terrible has happened. Of course, nothing is foolproof and I will keep an eye on things.</p>
+<p>If you want to replicate this setup, I will have documentation for it ready to go soon, but you can check the <a href="/projects/nginx-proxy-manager-on-separate-vlan">project page</a>. Thanks for reading and happy proxying.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://jccpalmer.com/">JC Palmer</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
