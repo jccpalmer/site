@@ -1,8 +1,8 @@
-+++
-date = '2025-01-01T08:37:18-05:00'
-draft = false
-title = 'Home'
-+++
+#+++
+#date = '2025-01-01T08:37:18-05:00'
+#draft = false
+#title = 'Home'
+#+++
 
 Welcome to my website. My name is JC, a technical writer, freelance technology journalist, and FOSS advocate. This site serves as a central hub for my blog posts, project descriptions, and my documentation (hosted separately).
 
