@@ -4,6 +4,9 @@ draft = false
 title = 'Proxying Docker containers on a separate VLAN'
 +++
 
+> [!NOTIFY] Update!
+> I have since moved on to another, but similar, method to successfully and securely proxy my Docker containers using a VPS and Tailscale.
+
 I'd like to start this off by clearly stating that I'm not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels. 
 
 I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.

@@ -7,11 +7,12 @@ menus = 'main'
 
 ### Here's the quick breakdown
 
-* I have over twelve years of writing experience in tech and government.
+* I have over thirteen years of writing experience in tech and government.
 * I love using free and open-source software wherever and whenever I can. Yes, that means Linux, among many other projects.
 * Some of my hobbies include: tinkering with my homelab, reading, studying, playing video games, writing, and woodworking.
 
-!!! And don't get me started on **mechanical keyboards**.
+> [!IMPORTANT] And...
+> Don't get me started on **mechanical keyboards**!
 
 ### Purpose
 

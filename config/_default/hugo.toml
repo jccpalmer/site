@@ -1,7 +1,7 @@
 baseURL = 'https://jccpalmer.com/'
 languageCode = 'en-us'
 title = 'Jordan Palmer'
-theme = 'PaperMod'
+theme = [ 'PaperMod', 'hugo-admonitions' ]
 
 [page]
   nextPrevInSectionOrder = 'desc'
