@@ -4,7 +4,7 @@ draft = false
 title = 'Home'
 +++
 
-Welcome to my website. My name is JC, a technical writer, freelance technology journalist, and FOSS advocate. This site serves as a central hub for my blog posts, project descriptions, and my documentation (hosted separately).\
+Welcome to my website. My name is Jordan, a technical writer, freelance technology journalist, and FOSS advocate. This site serves as a central hub for my blog posts, project descriptions, and my documentation (hosted separately).\
 \
 If you've landed here, it means that you and I share some kind of common interest. Homelab projects? Mechanical keyboards? General nerding out over FOSS or philosophy? Whatever your reason for stopping by, I'm sure we have something in common.\
 \
