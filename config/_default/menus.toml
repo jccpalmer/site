@@ -1,26 +1,31 @@
 [[main]]
+  identifier = 'home'
   name = 'Home'
   pageRef = '/'
-  weight = 10
+  weight = 1
 
 [[main]]
+  identifier = 'blog'
   name = 'Blog'
   pageRef = '/blog'
-  weight = 20
+  weight = 2
 
 [[main]]
+  identifier = 'posts'
   name = 'Posts'
   pageRef = '/posts'
-  weight = 30
+  weight = 3
 
 [[main]]
+  identifier = 'reviews'
   name = 'Reviews'
   pageRef = '/posts/reviews'
-  weight = 40
+  weight = 4
 
 [[main]]
+  identifier = 'docs'
   name = 'Docs'
   url = 'https://docs.jccpalmer.com'
-  weight = 50
+  weight = 5
   [main.params]
     rel = 'external'

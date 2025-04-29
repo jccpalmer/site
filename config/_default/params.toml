@@ -1,2 +1,5 @@
+[mainSections]
+  mainSections = [ 'blog', 'posts', 'reviews' ]
+
 [contact]
   email = 'contact@jccpalmer.com'
