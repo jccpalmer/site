@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>http://localhost:46097/</loc>
     <lastmod>2025-04-29T10:37:22-04:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>http://localhost:46097/posts/</loc>
+    <lastmod>2025-04-29T10:37:22-04:00</lastmod>
+  </url><url>
+    <loc>http://localhost:46097/about/</loc>
     <lastmod>2025-01-01T11:17:48-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/proxying-docker-containers-on-a-separate-vlan/</loc>
+    <loc>http://localhost:46097/posts/proxying-docker-containers-on-a-separate-vlan/</loc>
     <lastmod>2025-01-01T10:40:15-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>http://localhost:46097/posts/setting-up-kobo-sync-with-calibre-web/</loc>
     <lastmod>2025-01-01T08:37:18-05:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/setting-up-kobo-sync-with-calibre-web/</loc>
-    <lastmod>2025-01-01T08:37:18-05:00</lastmod>
+    <loc>http://localhost:46097/categories/</loc>
   </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
+    <loc>http://localhost:46097/tags/</loc>
   </url>
 </urlset>
