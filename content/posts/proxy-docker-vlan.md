@@ -2,7 +2,11 @@
 date = '2025-01-01T10:40:15-05:00'
 draft = false
 title = 'Proxying Docker containers on a separate VLAN'
+showtoc = true
 +++
+
+> [!NOTIFY] Update!
+> I have since moved on to another, but similar, method to successfully and securely proxy my Docker containers using a VPS and Tailscale.
 
 I'd like to start this off by clearly stating that I'm not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels. 
 

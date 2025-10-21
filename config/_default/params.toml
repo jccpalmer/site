@@ -1,0 +1,38 @@
+#[mainSections]
+#  mainSections = [ 'posts' ]
+
+[showtoc]
+  showtoc = true
+
+[profileMode]
+  enabled = true
+  subtitle = 'Technical writer, freelance technology journalist, FOSS advocate'
+  imageUrl = 'https://static.toot.community/accounts/avatars/112/056/189/310/710/734/original/ee5dd84b234c575a.jpg'
+
+  [[profileMode.buttons]]
+  name = 'Posts'
+  url = '/posts'
+
+  [[profileMode.buttons]]
+  name = 'Blog'
+  url = '/blog'
+
+  [[profileMode.buttons]]
+  name = 'About'
+  url = '/about'
+
+[homeInfoParams]
+  Title = 'Home'
+  Content = 'Technical writer, freelance technology journalist, FOSS advocate'
+
+[[socialIcons]]
+  name = "linkedin"
+  url = "https://www.linkedin/in/jccpalmer"
+
+[[socialIcons]]
+  name = "github"
+  url = "https://www.github.com/jccpalmer"
+
+[showPostsOnHomePage]
+  enabled = false
+>>>>>>> a9027b61b11e255f95dd27e2c33f892ec13f7896

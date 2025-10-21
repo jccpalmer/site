@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Home on JC Palmer</title>
-    <link>https://jccpalmer.com/</link>
-    <description>Recent content in Home on JC Palmer</description>
-    <generator>Hugo -- 0.140.2</generator>
+    <title>Home on Jordan Palmer</title>
+    <link>http://localhost:46097/</link>
+    <description>Recent content in Home on Jordan Palmer</description>
+    <generator>Hugo -- 0.147.0</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 01 Jan 2025 11:17:48 -0500</lastBuildDate>
-    <atom:link href="https://jccpalmer.com/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:46097/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>https://jccpalmer.com/about/about/</link>
+      <link>http://localhost:46097/about/</link>
       <pubDate>Wed, 01 Jan 2025 11:17:48 -0500</pubDate>
-      <guid>https://jccpalmer.com/about/about/</guid>
+      <guid>http://localhost:46097/about/</guid>
       <description>&lt;h3 id=&#34;heres-the-quick-breakdown&#34;&gt;Here&amp;rsquo;s the quick breakdown&lt;/h3&gt;
 &lt;ul&gt;
-&lt;li&gt;I have over twelve years of writing experience in tech and government.&lt;/li&gt;
+&lt;li&gt;I have over thirteen years of writing experience in tech and government.&lt;/li&gt;
 &lt;li&gt;I love using free and open-source software wherever and whenever I can. Yes, that means Linux, among many other projects.&lt;/li&gt;
 &lt;li&gt;Some of my hobbies include: tinkering with my homelab, reading, studying, playing video games, writing, and woodworking.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;!!! And don&amp;rsquo;t get me started on &lt;strong&gt;mechanical keyboards&lt;/strong&gt;.&lt;/p&gt;
-&lt;h3 id=&#34;purpose&#34;&gt;Purpose&lt;/h3&gt;
-&lt;p&gt;I always wanted a free space where I could write about whatever I wanted. For years, I looked at people with their own websites, unsure of how they did it. Slowly but surely, I learned about managing a website, making a start at Squarespace. Finding that far too expensive, I went to WordPress, then a locally-installed WordPress installation. And here I am in what I hope is the final form. (I am using the Hugo static site generator and a git repository.)&lt;/p&gt;</description>
+
+          &lt;link rel=&#34;stylesheet&#34; href=&#34;http://localhost:46097/css/vendors/admonitions.css&#34;&gt;
+    &lt;div class=&#34;admonition important&#34;&gt;
+      &lt;div class=&#34;admonition-header&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path d=&#34;M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm0-384c13.3 0 24 10.7 24 24l0 112c0 13.3-10.7 24-24 24s-24-10.7-24-24l0-112c0-13.3 10.7-24 24-24zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z&#34;/&gt;&lt;/svg&gt;
+        &lt;span&gt;And&amp;hellip;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&#34;admonition-content&#34;&gt;
+        &lt;p&gt;Don&amp;rsquo;t get me started on &lt;strong&gt;mechanical keyboards&lt;/strong&gt;!&lt;/p&gt;</description>
     </item>
     <item>
       <title>Proxying Docker containers on a separate VLAN</title>
-      <link>https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/</link>
+      <link>http://localhost:46097/posts/proxying-docker-containers-on-a-separate-vlan/</link>
       <pubDate>Wed, 01 Jan 2025 10:40:15 -0500</pubDate>
-      <guid>https://jccpalmer.com/posts/proxying-docker-containers-on-a-separate-vlan/</guid>
-      <description>&lt;p&gt;I&amp;rsquo;d like to start this off by clearly stating that I&amp;rsquo;m not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.&lt;/p&gt;
-&lt;p&gt;I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.&lt;/p&gt;</description>
+      <guid>http://localhost:46097/posts/proxying-docker-containers-on-a-separate-vlan/</guid>
+      <description>&lt;link rel=&#34;stylesheet&#34; href=&#34;http://localhost:46097/css/vendors/admonitions.css&#34;&gt;
+    &lt;div class=&#34;admonition notify&#34;&gt;
+      &lt;div class=&#34;admonition-header&#34;&gt;&lt;svg xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 448 512&#34;&gt;&lt;path d=&#34;M224 0c-17.7 0-32 14.3-32 32l0 19.2C119 66 64 130.6 64 208l0 18.8c0 47-17.3 92.4-48.5 127.6l-7.4 8.3c-8.4 9.4-10.4 22.9-5.3 34.4S19.4 416 32 416l384 0c12.6 0 24-7.4 29.2-18.9s3.1-25-5.3-34.4l-7.4-8.3C401.3 319.2 384 273.9 384 226.8l0-18.8c0-77.4-55-142-128-156.8L256 32c0-17.7-14.3-32-32-32zm45.3 493.3c12-12 18.7-28.3 18.7-45.3l-64 0-64 0c0 17 6.7 33.3 18.7 45.3s28.3 18.7 45.3 18.7s33.3-6.7 45.3-18.7z&#34;/&gt;&lt;/svg&gt;
+        &lt;span&gt;Update!&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class=&#34;admonition-content&#34;&gt;
+        &lt;p&gt;I have since moved on to another, but similar, method to successfully and securely proxy my Docker containers using a VPS and Tailscale.&lt;/p&gt;</description>
     </item>
     <item>
       <title>Setting up Kobo sync with Calibre Web</title>
-      <link>https://jccpalmer.com/posts/setting-up-kobo-sync-with-calibre-web/</link>
+      <link>http://localhost:46097/posts/setting-up-kobo-sync-with-calibre-web/</link>
       <pubDate>Wed, 01 Jan 2025 08:37:18 -0500</pubDate>
-      <guid>https://jccpalmer.com/posts/setting-up-kobo-sync-with-calibre-web/</guid>
+      <guid>http://localhost:46097/posts/setting-up-kobo-sync-with-calibre-web/</guid>
       <description>&lt;p&gt;There I was, minding my own business downloading ebooks from my Calibre server to my Kobo Libra 2 via the web browser when I stumbled upon a comment. This comment, courtesy of a now unknown Redditor, briefly mentioned something I&amp;rsquo;d never heard of. Apparently, Calibre Web, the very service I used to sideload books onto my Kobo, had a built-in Kobo sync feature.&lt;/p&gt;
 &lt;p&gt;I stared incredulously at this comment, and then started to do some digging. I even ventured onto Google to find answers, as DuckDuckGo proved unable to pinpoint the exact information I needed. Sure enough, I found what I wanted, or at least the beginnings of it.&lt;/p&gt;</description>
     </item>

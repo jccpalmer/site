@@ -11,7 +11,8 @@ menus = 'main'
 * I love using free and open-source software wherever and whenever I can. Yes, that means Linux, among many other projects.
 * Some of my hobbies include: tinkering with my homelab, reading, studying, playing video games, writing, and woodworking.
 
-!!! And don't get me started on **mechanical keyboards**.
+> [!IMPORTANT] And...
+> Don't get me started on **mechanical keyboards**!
 
 ### Purpose
 

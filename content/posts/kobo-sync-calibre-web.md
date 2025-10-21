@@ -2,6 +2,7 @@
 date = '2025-01-01T08:37:18-05:00'
 draft = false
 title = 'Setting up Kobo sync with Calibre Web'
+showtoc = true
 +++
 
 There I was, minding my own business downloading ebooks from my Calibre server to my Kobo Libra 2 via the web browser when I stumbled upon a comment. This comment, courtesy of a now unknown Redditor, briefly mentioned something I'd never heard of. Apparently, Calibre Web, the very service I used to sideload books onto my Kobo, had a built-in Kobo sync feature.
