@@ -1,3 +1,5 @@
-module github.com/KKKZOZ/hugo-admonitions
+module github.com/jccpalmer/hugo-admonitions
 
-go 1.24.2
+go 1.25.6
+
+require github.com/KKKZOZ/hugo-admonitions v0.11.4 // indirect

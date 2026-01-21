@@ -1,20 +1,26 @@
 baseURL = 'https://jccpalmer.com/'
 languageCode = 'en-us'
 title = 'Jordan Palmer'
-theme = [ 'PaperMod', 'hugo-admonitions' ]
+theme = ['PaperMod']
 
 [page]
-  nextPrevInSectionOrder = 'desc'
-  nextPrevSortOrder = 'asc'
+nextPrevInSectionOrder = 'desc'
+nextPrevSortOrder = 'asc'
 
 #sectionPagesMenu = 'main'
 
 [permalinks]
-  [permalinks.page]
-    blog = '/blog/:slug'
-    posts = '/posts/:slug'
-    reviews = '/posts/reviews/:slug'
-  [permalinks.section]
-    blog = '/blog'
-    posts = '/posts/'
-    reviews = '/posts/reviews'
+[permalinks.page]
+blog = '/blog/:slug'
+posts = '/posts/:slug'
+reviews = '/posts/reviews/:slug'
+[permalinks.section]
+blog = '/blog'
+posts = '/posts/'
+reviews = '/posts/reviews'
+
+[module]
+[[module.imports]]
+path = "github.com/KKKZOZ/hugo-admonitions"
+[[module.imports]]
+path = "hugo-admonitions"

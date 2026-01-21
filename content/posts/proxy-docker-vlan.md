@@ -8,7 +8,7 @@ showtoc = true
 > [!NOTIFY] Update!
 > I have since moved on to another, but similar, method to successfully and securely proxy my Docker containers using a VPS and Tailscale.
 
-I'd like to start this off by clearly stating that I'm not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels. 
+I'd like to start this off by clearly stating that I'm not a network engineer, nor do I know how to be one. That said, however, a project idea came to me one day as I thought about breaking myself free from Cloudflare Tunnels.
 
 I built a weird setup with a Raspberry Pi, Nginx Proxy Manager, a separate VLAN, and a series of Docker containers that I wanted to access externally. I wasted hours, days, in pure frustration, only to find out that the solution was so simple.
 
@@ -16,7 +16,7 @@ The secret was the ports. What do I mean? Well, let me tell you about it.
 
 ## Coming up with the idea
 
-Don't get me wrong, the service that Cloudflare offers homelab users for *free* is outstanding. Tunnels let me expose services like Nextcloud and Calibre Web without a hassle, but even those could prove troublesome given Cloudflare's terms of service. 
+Don't get me wrong, the service that Cloudflare offers homelab users for *free* is outstanding. Tunnels let me expose services like Nextcloud and Calibre Web without a hassle, but even those could prove troublesome given Cloudflare's terms of service.
 
 Such terms prevented the use of Tunnels for things like media, so publicly exposing my Jellyfin server was a no-go. Before Cloudflare, I had opened ports `80` and `443` on my router and used Nginx Proxy Manager (NPM) to proxy my services to a public URL. That is rather risky, though, and so I shut the whole thing down and went with Cloudflare.
 
@@ -30,7 +30,7 @@ I have a main network where most of my client devices reside. A while ago, I bui
 
 This way, if one of those devices is compromised, I can keep the damage restricted to the IoT VLAN since I set up several firewall rules that keep the smart devices from getting more than the bare essential internet access that they need to function.
 
-So I applied a similar philosophy to the proxy VLAN idea. I took an unused Raspberry Pi and flashed Raspberry Pi OS Lite to an SD card. (I really liked when it was called Raspbian, but I digress.) I installed Docker, Portainer, and Nginx Proxy Manager. 
+So I applied a similar philosophy to the proxy VLAN idea. I took an unused Raspberry Pi and flashed Raspberry Pi OS Lite to an SD card. (I really liked when it was called Raspbian, but I digress.) I installed Docker, Portainer, and Nginx Proxy Manager.
 
 I went into my router and built a new VLAN that I named NPM. The first order of business was to tell my router to put the Raspberry Pi on the new VLAN instead of the main one. Considering that I was using an unmanaged switch, I had to sacrifice one of the ports on my UniFi Dream Machine to dedicate to the proxy VLAN.
 
@@ -44,7 +44,7 @@ I hope that makes a bit of sense. Basically, the Raspberry Pi can't talk to anyt
 
 After loading everything up, I powered it all on and built my first proxy host. Then I tried to connect and... nothing. I got a connection failure. After some playing around, I tried to access the public URL outside of my network. Still nothing. I checked DNS settings and learned that my router's NAT options may be messing with the connection, but Ubiquiti, to my knowledge, doesn't allow you to change your router's NAT config.
 
-I tried for hours and didn't make any progress. Several days later, I gave up. Then, while hanging out with a friend as she worked on her own project, I decided to spin this up again. I encountered the same errors. 
+I tried for hours and didn't make any progress. Several days later, I gave up. Then, while hanging out with a friend as she worked on her own project, I decided to spin this up again. I encountered the same errors.
 
 That said, we wouldn't be here right now if I hadn't figured it out.
 
@@ -52,7 +52,7 @@ That said, we wouldn't be here right now if I hadn't figured it out.
 
 After toying with my DNS resolver, Unbound — AKA switching to a public one — I suddenly got access to my external URLs while off my network. Huzzah! That was a major step in the right direction, which meant my NPM server was properly communicating with the Docker server. How? Hell if I know.
 
-But internally, the URLs still resolved to NXDOMAIN in `nslookup`. Weird. 
+But internally, the URLs still resolved to NXDOMAIN in `nslookup`. Weird.
 
 On a whim, I installed UFW, or the Uncomplicated Firewall, on the Docker host and tried passing through the normal SSH, HTTP, and HTTPS ports. That didn't do anything. My frustration grew. I was so close!
 
@@ -76,6 +76,6 @@ I can't believe that the solution this whole time, as it stands, was to use a pu
 
 In the end, I could have also opted for the [Self-hosted Gateway](https://github.com/fractalnetworksco/selfhosted-gateway) solution, an open-source alternative to Cloudflare Tunnels. That, however, requires a virtual private server (VPS) to run properly since it needs ports `80` and `443`open to authenticate and get the SSL certificates. At that point, you might as well copy this project and save yourself the hassle and money. (Self-Hosted Gateway can be a pain to use and the documentation needs help the last time I checked; maybe I can lend a hand with that!)
 
-I've had this going for a few days and I've watched logs on my router and Fail2ban on the NPM server. My router has blocked the generic `80` and `443` scans that bots and bad actors do, but nothing terrible has happened. Of course, nothing is foolproof and I will keep an eye on things. 
+I've had this going for a few days and I've watched logs on my router and Fail2ban on the NPM server. My router has blocked the generic `80` and `443` scans that bots and bad actors do, but nothing terrible has happened. Of course, nothing is foolproof and I will keep an eye on things.
 
 If you want to replicate this setup, I will have documentation for it ready to go soon, but you can check the [project page](/projects/nginx-proxy-manager-on-separate-vlan). Thanks for reading and happy proxying.
