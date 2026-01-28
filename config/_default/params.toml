@@ -36,4 +36,4 @@ url = "https://www.codeberg.org/jccpalmer"
 enabled = false
 
 [comments]
-enabled = true
+enabled = false
